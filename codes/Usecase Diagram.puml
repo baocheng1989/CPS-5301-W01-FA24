@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+:Nurse: -- (viewRecord)
+:Nurse: -- (editRecord)
+:Doctor: -- (viewRecord)
+:Doctor: -- (editRecord)
+:Doctor: -- (makeConsultation)
+:Doctor: -- (generateReport)
+:Manager: -- (exportStatistics)
+:Manager: -- (generateReport)
+:Manager: -- (viewPersonalInfor)
+:Receptionest: -- (registerPatient)
+:Receptionest: -- (viewPersonalInfor)
+(makeConsultation) <.. (prescribeMedication): <extend>
+(editRecord) ..> (login): <include>
+(generateReport) ..> (login): <include>
+(viewPersonalInfor) ..> (login): <include>
+:MedicalStaff: <|-- :Doctor:
+:MedicalStaff: <|-- :Nurse:
+@enduml

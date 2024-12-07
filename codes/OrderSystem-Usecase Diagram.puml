@@ -1,0 +1,8 @@
+
+@startuml OrderSystem-Usecase Diagram
+:Customer: --> (make orders)
+:Customer: --> (show orders)
+:Customer: --> (add order item)
+:Customer: --> (remove order item)
+:Customer: --> (change shipping address)
+@enduml
