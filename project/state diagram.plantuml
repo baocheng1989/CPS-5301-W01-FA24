@@ -1,0 +1,32 @@
+@startuml
+title Ticket State Machine Diagram
+
+[*] --> Open
+
+Open --> Locked : book
+Locked --> Open : unbook
+
+Locked --> Purchased : buy
+Purchased --> Changed : change
+Purchased --> Refunded : refund
+Changed --> Refunded : refund
+
+Purchased --> Boarding : check-in
+Changed --> Boarding : check-in
+Boarding --> Ongoing : take-off
+Ongoing --> Completed : landed
+
+Completed --> [*]
+Purchased --> [*] : no-used
+Changed --> [*] : no-used
+
+Refunded --> Open : reopen
+Refunded --> [*] : canceled
+
+Open --> Canceled : cancel
+Purchased --> Canceled : cancel
+Changed --> Canceled : cancel
+Locked --> Canceled : cancel
+Canceled --> [*]
+
+@enduml

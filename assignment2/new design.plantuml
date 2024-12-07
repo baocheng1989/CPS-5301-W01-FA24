@@ -1,0 +1,76 @@
+@startuml new_design
+skinparam classAttributeIconSize 0
+
+abstract class PriceCalculationStrategy {
+  + {abstract} calculate_total(products: List[Product]): float
+}
+
+class StandardPriceStrategy {
+  + calculate_total(products: List[Product]): float
+}
+
+class DiscountPriceStrategy {
+  - discount_rate: float
+  + calculate_total(products: List[Product]): float
+}
+
+class ProductFactory {
+  + {static} create_product(product_type: str, name: str, price: float): Product
+}
+
+abstract class Product {
+  - name: str
+  - price: float
+  + get_name(): str
+  + get_price(): float
+}
+
+class ElectronicsProduct {
+  - warranty: bool
+}
+
+class ClothingProduct {
+  - size: str
+}
+
+abstract class OrderObserver {
+  + {abstract} update(order: Order)
+}
+
+class LoggingObserver {
+  + update(order: Order)
+}
+
+class Order {
+  - products: List[Product]
+  - strategy: PriceCalculationStrategy
+  - observers: List[OrderObserver]
+  + add_product(product: Product)
+  + calculate_total(): float
+  + add_observer(observer: OrderObserver)
+}
+
+class Customer {
+  - name: str
+  - email: str
+  - orders: List[Order]
+  - loyalty_points: int
+  + place_order(order: Order)
+}
+
+' Relationships
+PriceCalculationStrategy <|-- StandardPriceStrategy
+PriceCalculationStrategy <|-- DiscountPriceStrategy
+
+Product <|-- ElectronicsProduct
+Product <|-- ClothingProduct
+
+OrderObserver <|-- LoggingObserver
+
+Order "1" *-- "*" Product
+Order "1" -- "1" PriceCalculationStrategy
+Order "1" -- "*" OrderObserver
+
+Customer "1" *-- "*" Order
+
+@enduml
